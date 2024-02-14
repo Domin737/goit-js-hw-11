@@ -1,45 +1,104 @@
-/* Proste resetowanie stylów */
-* {
+/* Podstawowy reset i globalne style */
+body,
+html {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+  box-sizing: border-box; /* Dodanie box-sizing dla całej strony */
 }
 
-body {
-  font-family: Arial, sans-serif;
-}
-
-/* Stylowanie formularza wyszukiwania */
-.search-form {
+/* Centrowanie i stylizacja paska wyszukiwania */
+header {
   background-color: #333;
-  padding: 20px;
+  padding: 20px 0; /* Ustawienie paddingu tylko góra/dół */
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  justify-content: center; /* Wyśrodkowanie formularza */
+  align-items: center;
+}
+
+.search-form {
+  width: 80%; /* Szerokość formularza */
+  max-width: 500px; /* Maksymalna szerokość formularza */
 }
 
 .search-form input {
-  width: 70%;
+  width: 70%; /* Szerokość pola tekstowego */
   padding: 10px;
+  margin-right: 10px; /* Odstęp między polem a przyciskiem */
+  border: 2px solid #444; /* Stylizacja obramowania */
+  border-radius: 5px; /* Zaokrąglenie rogu */
 }
 
 .search-form button {
-  padding: 10px 20px;
-  cursor: pointer;
+  width: 20%; /* Szerokość przycisku */
+  padding: 10px;
+  background-color: #007bff; /* Kolor tła */
+  color: white; /* Kolor tekstu */
+  border: none; /* Usunięcie obramowania */
+  border-radius: 5px; /* Zaokrąglenie rogu */
+  cursor: pointer; /* Kursor wskazujący */
 }
 
-/* Stylowanie galerii obrazów */
+/* Stylizacja galerii i przycisku "Load more" */
 .gallery {
   margin: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(250px, 1fr)
+  ); /* Ustawienie siatki */
+  grid-gap: 20px; /* Odstęp między elementami */
 }
 
-/* Stylowanie przycisku "Load more" */
+.photo-card {
+  border: 1px solid #ddd; /* Obramowanie karty */
+  border-radius: 5px; /* Zaokrąglenie rogu */
+  overflow: hidden; /* Ukrycie nadmiaru treści */
+}
+
+.photo-card img {
+  width: 100%; /* Szerokość obrazu */
+  height: 200px; /* Wysokość obrazu */
+  object-fit: cover; /* Dopasowanie obrazu do kontenera */
+}
+
+.info {
+  padding: 10px; /* Padding dla tekstu pod obrazem */
+  background-color: #f8f8f8; /* Kolor tła tekstu */
+  display: flex;
+  justify-content: space-between; /* Rozłożenie tekstu równomiernie */
+  font-size: 0.9em; /* Mniejsza czcionka */
+}
+
+.info-item {
+  margin: 0; /* Usunięcie marginesów */
+}
+
 .load-more {
-  display: block;
-  margin: 20px auto;
-  padding: 10px 20px;
-  cursor: pointer;
+  display: block; /* Wyświetlenie przycisku jako blok */
+  width: auto; /* Automatyczna szerokość */
+  padding: 10px 20px; /* Padding przycisku */
+  margin: 20px auto; /* Centrowanie przycisku */
+  background-color: #28a745; /* Kolor tła */
+  color: white; /* Kolor tekstu */
+  border: none; /* Usunięcie obramowania */
+  border-radius: 5px; /* Zaokrąglenie rogu */
+  cursor: pointer; /* Kursor wskazujący */
+}
+
+/* Media queries dla responsywności */
+@media (max-width: 600px) {
+  .search-form input,
+  .search-form button {
+    width: 100%; /* Pełna szerokość na małych ekranach */
+    margin: 5px 0; /* Odstęp tylko góra/dół */
+  }
+
+  .search-form button {
+    width: auto; /* Automatyczna szerokość przycisku */
+  }
+
+  .gallery {
+    grid-template-columns: 1fr; /* Jedna kolumna na małych ekranach */
+  }
 }

@@ -1,0 +1,45 @@
+/* Proste resetowanie stylów */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Stylowanie formularza wyszukiwania */
+.search-form {
+  background-color: #333;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.search-form input {
+  width: 70%;
+  padding: 10px;
+}
+
+.search-form button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/* Stylowanie galerii obrazów */
+.gallery {
+  margin: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Stylowanie przycisku "Load more" */
+.load-more {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  cursor: pointer;
+}

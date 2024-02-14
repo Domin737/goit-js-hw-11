@@ -50,27 +50,36 @@ async function fetchImages() {
     const response = await axios.get(`${BASE_URL}?${params}`);
     const { hits, totalHits } = response.data;
 
-    if (hits.length === 0) {
+    // Logika dla wyświetlenia przycisku "Load more"
+    loadMoreButton.hidden = !(
+      hits.length > 0 && (currentPage - 1) * 40 + hits.length < totalHits
+    );
+
+    if (hits.length === 0 && currentPage === 1) {
       Notiflix.Notify.failure(
         'Niestety, nie znaleziono obrazów pasujących do zapytania. Proszę wpisać inną frazę lub spróbować ponownie.'
       );
       return;
     }
 
+    // Odświeżanie galerii tylko przy pierwszej stronie wyników
     if (currentPage === 1) {
+      clearGallery();
       Notiflix.Notify.success(`Hura! Znaleziono ${totalHits} obrazów.`);
     }
 
-    appendImagesMarkup(hits);
-    loadMoreButton.hidden = false;
+    appendImagesMarkup(hits, totalHits);
 
     currentPage += 1;
 
-    if (currentPage * 40 >= totalHits) {
+    // Jeśli wszystkie obrazy zostały załadowane, ukryj przycisk "Load more"
+    if ((currentPage - 1) * 40 + hits.length >= totalHits) {
       loadMoreButton.hidden = true;
-      Notiflix.Notify.info(
-        'Przykro nam, ale dotarłeś do końca wyników wyszukiwania.'
-      );
+      if (currentPage > 1) {
+        Notiflix.Notify.info(
+          'Przykro nam, ale dotarłeś do końca wyników wyszukiwania.'
+        );
+      }
     }
   } catch (error) {
     console.error(error);
@@ -86,45 +95,35 @@ function clearGallery() {
   loadMoreButton.hidden = true;
 }
 
-// Dodawanie obrazów do galerii
+// Dodawanie obrazów do galerii i aktualizacja logiki przycisku "Load more"
 function appendImagesMarkup(images, totalHits) {
   const markup = images
     .map(
       image => `
           <div class="photo-card">
-              <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
-              <div class="info">
-                  <p class="info-item">
-                      <b>Lubię to</b>
-                      <span>${image.likes}</span>
-                  </p>
-                  <p class="info-item">
-                      <b>Odsłony</b>
-                      <span>${image.views}</span>
-                  </p>
-                  <p class="info-item">
-                      <b>Komentarze</b>
-                      <span>${image.comments}</span>
-                  </p>
-                  <p class="info-item">
-                      <b>Pobrania</b>
-                      <span>${image.downloads}</span>
-                  </p>
-              </div>
+            <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
+            <div class="info">
+              <p class="info-item">
+                <b>Lubię to</b>
+                <span>${image.likes}</span>
+              </p>
+              <p class="info-item">
+                <b>Odsłony</b>
+                <span>${image.views}</span>
+              </p>
+              <p class="info-item">
+                <b>Komentarze</b>
+                <span>${image.comments}</span>
+              </p>
+              <p class="info-item">
+                <b>Pobrania</b>
+                <span>${image.downloads}</span>
+              </p>
+            </div>
           </div>
-      `
+        `
     )
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
-
-  // Logika dla przycisku "Load more"
-  if (gallery.children.length < totalHits) {
-    loadMoreButton.hidden = false;
-  } else {
-    loadMoreButton.hidden = true;
-    Notiflix.Notify.info(
-      'Przykro nam, ale dotarłeś do końca wyników wyszukiwania.'
-    );
-  }
 }

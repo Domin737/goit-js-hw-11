@@ -58,6 +58,11 @@ async function fetchImages() {
     totalHits = data.totalHits;
     const hits = data.hits;
 
+    loadMoreButton.classList.toggle(
+      'show',
+      (currentPage - 1) * 40 + hits.length < totalHits
+    );
+
     if (hits.length === 0) {
       Notiflix.Notify.failure('Brak zdjęć odpowiadających zapytaniu.');
       return;

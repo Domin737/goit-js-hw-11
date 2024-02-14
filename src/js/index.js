@@ -23,22 +23,9 @@ let lightbox = null;
 // Słuchacze zdarzeń
 searchForm.addEventListener('submit', handleSearch);
 loadMoreButton.addEventListener('click', fetchImages);
-clearSearchBtn.addEventListener('click', clearGallery);
-
-// Obsługa czyszczenia galerii
-function clearGallery() {
-  gallery.innerHTML = '';
-  searchForm.elements.searchQuery.value = '';
-  loadMoreButton.hidden = true;
-  searchQuery = '';
-  currentPage = 1;
-  totalHits = 0;
-
-  if (lightbox) {
-    lightbox.destroy();
-    lightbox = null;
-  }
-}
+clearSearchBtn.addEventListener('click', () => {
+  window.location.reload(); // Odświeża stronę
+});
 
 // Obsługa wysłania formularza wyszukiwania
 async function handleSearch(event) {

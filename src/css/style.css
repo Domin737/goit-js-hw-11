@@ -4,110 +4,105 @@ html {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
-  box-sizing: border-box; /* Dodanie box-sizing dla całej strony */
+  box-sizing: border-box;
 }
 
 /* Stylizacja paska wyszukiwania */
 header {
   background-color: #333;
-  padding: 20px 0; /* Ustawienie paddingu tylko góra/dół */
+  padding: 20px 0;
   display: flex;
-  justify-content: center; /* Wyśrodkowanie formularza */
+  justify-content: center;
   align-items: center;
 }
 
 .search-form {
-  width: 80%; /* Szerokość formularza */
-  max-width: 500px; /* Maksymalna szerokość formularza */
+  width: 80%;
+  max-width: 500px;
 }
 
 .search-form input {
-  width: 70%; /* Szerokość pola tekstowego */
+  width: 70%;
   padding: 10px;
-  margin-right: 10px; /* Odstęp między polem a przyciskiem */
-  border: 2px solid #444; /* Stylizacja obramowania */
-  border-radius: 5px; /* Zaokrąglenie rogu */
+  margin-right: 10px;
+  border: 2px solid #444;
+  border-radius: 5px;
 }
 
 .search-form button {
-  width: 20%; /* Szerokość przycisku */
+  width: 20%;
   padding: 10px;
-  background-color: #007bff; /* Kolor tła */
-  color: white; /* Kolor tekstu */
-  border: none; /* Usunięcie obramowania */
-  border-radius: 5px; /* Zaokrąglenie rogu */
-  cursor: pointer; /* Kursor wskazujący */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 /* Stylizacja galerii i przycisku "Load more" */
 .gallery {
   margin: 20px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Ustawienie 4 kolumn */
-  grid-gap: 20px; /* Odstęp między elementami */
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
 }
 
 .photo-card {
-  border: 1px solid #ddd; /* Obramowanie karty */
-  border-radius: 5px; /* Zaokrąglenie rogu */
-  overflow: hidden; /* Ukrycie nadmiaru treści */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex; /* Ustawienie flex dla lepszego zarządzania układem */
+  flex-direction: column; /* Układanie elementów w pionie */
 }
 
 .photo-card img {
-  width: 100%; /* Szerokość obrazu */
-  height: auto; /* Wysokość obrazu */
-  object-fit: cover; /* Dopasowanie obrazu do kontenera */
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Zapewnia, że obrazy wypełnią element img */
+  flex-grow: 1; /* Obraz zajmie całą dostępną przestrzeń */
 }
 
 .info {
-  padding: 10px; /* Padding dla tekstu pod obrazem */
-  background-color: #f8f8f8; /* Kolor tła tekstu */
+  padding: 10px;
+  background-color: #f8f8f8;
   display: flex;
-  justify-content: space-between; /* Rozłożenie tekstu równomiernie */
-  font-size: 0.9em; /* Mniejsza czcionka */
+  justify-content: space-around; /* Zapewnia równomierne rozmieszczenie elementów */
+  font-size: 0.9em;
 }
 
 .info-item {
-  margin: 0; /* Usunięcie marginesów */
+  text-align: center; /* Wyśrodkowanie tekstu */
 }
 
-.load-more {
-  display: block; /* Wyświetlenie przycisku jako blok */
-  width: auto; /* Automatyczna szerokość */
-  padding: 10px 20px; /* Padding przycisku */
-  margin: 20px auto; /* Centrowanie przycisku */
-  background-color: #28a745; /* Kolor tła */
-  color: white; /* Kolor tekstu */
-  border: none; /* Usunięcie obramowania */
-  border-radius: 5px; /* Zaokrąglenie rogu */
-  cursor: pointer; /* Kursor wskazujący */
+.info-item b {
+  display: block; /* Wyświetlanie jako blok */
 }
 
 /* Media queries dla responsywności */
 @media (max-width: 1200px) {
   .gallery {
-    grid-template-columns: repeat(3, 1fr); /* 3 kolumny dla średnich ekranów */
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 900px) {
   .gallery {
-    grid-template-columns: repeat(2, 1fr); /* 2 kolumny dla małych ekranów */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 600px) {
   .search-form input,
   .search-form button {
-    width: 100%; /* Pełna szerokość na bardzo małych ekranach */
-    margin: 5px 0; /* Odstęp tylko góra/dół */
+    width: 100%;
+    margin: 5px 0;
   }
 
   .search-form button {
-    width: auto; /* Automatyczna szerokość przycisku */
+    width: auto;
   }
 
   .gallery {
-    grid-template-columns: 1fr; /* 1 kolumna dla bardzo małych ekranów */
+    grid-template-columns: 1fr;
   }
 }

@@ -1,6 +1,8 @@
 // Importowanie wymaganych modułów
 import axios from 'axios';
 import Notiflix from 'notiflix';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 // Konfiguracja API
 const API_KEY = '4899584-ce1a6fbdd7631a82a87f71a0e';
@@ -15,6 +17,7 @@ const loadMoreButton = document.querySelector('#load-more');
 let currentPage = 1;
 let searchQuery = '';
 let totalHits = 0;
+let lightbox = null;
 
 // Słuchacze zdarzeń
 searchForm.addEventListener('submit', handleSearch);
@@ -90,32 +93,30 @@ function appendImagesMarkup(images) {
   const markup = images
     .map(
       image => `
-            <div class="photo-card">
+            <a href="${image.largeImageURL}" class="photo-card" data-lightbox="image-set">
                 <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
                 <div class="info">
-                    <p class="info-item">
-                        <b>Lubię to</b>
-                        <span>${image.likes}</span>
-                    </p>
-                    <p class="info-item">
-                        <b>Odsłony</b>
-                        <span>${image.views}</span>
-                    </p>
-                    <p class="info-item">
-                        <b>Komentarze</b>
-                        <span>${image.comments}</span>
-                    </p>
-                    <p class="info-item">
-                        <b>Pobrania</b>
-                        <span>${image.downloads}</span>
-                    </p>
+                    <p class="info-item"><b>Lubię to</b> <span>${image.likes}</span></p>
+                    <p class="info-item"><b>Odsłony</b> <span>${image.views}</span></p>
+                    <p class="info-item"><b>Komentarze</b> <span>${image.comments}</span></p>
+                    <p class="info-item"><b>Pobrania</b> <span>${image.downloads}</span></p>
                 </div>
-            </div>
+            </a>
         `
     )
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
+
+  // Inicjalizacja SimpleLightbox dla nowo dodanych elementów
+  if (!lightbox) {
+    lightbox = new SimpleLightbox('.gallery a', {
+      captionsData: 'alt',
+      captionDelay: 250,
+    });
+  } else {
+    lightbox.refresh();
+  }
 
   // Logika dla przycisku "Load more"
   if ((currentPage - 1) * 40 + images.length < totalHits) {

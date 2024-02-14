@@ -14,6 +14,7 @@ const loadMoreButton = document.querySelector('#load-more');
 // Stan aplikacji
 let currentPage = 1;
 let searchQuery = '';
+let totalHits = 0;
 
 // Słuchacze zdarzeń
 searchForm.addEventListener('submit', handleSearch);
@@ -29,13 +30,15 @@ async function handleSearch(event) {
     return;
   }
 
-  currentPage = 1;
   clearGallery();
+  currentPage = 1;
   fetchImages();
 }
 
 // Pobieranie obrazów z Pixabay
 async function fetchImages() {
+  loadMoreButton.hidden = true;
+
   const params = new URLSearchParams({
     key: API_KEY,
     q: searchQuery,
@@ -48,82 +51,76 @@ async function fetchImages() {
 
   try {
     const response = await axios.get(`${BASE_URL}?${params}`);
-    const { hits, totalHits } = response.data;
+    const data = response.data;
+    totalHits = data.totalHits;
+    const hits = data.hits;
 
-    // Logika dla wyświetlenia przycisku "Load more"
-    loadMoreButton.hidden = !(
-      hits.length > 0 && (currentPage - 1) * 40 + hits.length < totalHits
-    );
-
-    if (hits.length === 0 && currentPage === 1) {
-      Notiflix.Notify.failure(
-        'Niestety, nie znaleziono obrazów pasujących do zapytania. Proszę wpisać inną frazę lub spróbować ponownie.'
-      );
+    if (hits.length === 0) {
+      Notiflix.Notify.failure('Brak zdjęć odpowiadających zapytaniu.');
       return;
     }
 
-    // Odświeżanie galerii tylko przy pierwszej stronie wyników
-    if (currentPage === 1) {
-      clearGallery();
+    appendImagesMarkup(hits);
+    loadMoreButton.hidden = !(currentPage * 40 < totalHits);
+
+    if (currentPage === 1 && totalHits > 0) {
       Notiflix.Notify.success(`Hura! Znaleziono ${totalHits} obrazów.`);
     }
 
-    appendImagesMarkup(hits, totalHits);
-
-    currentPage += 1;
-
-    // Jeśli wszystkie obrazy zostały załadowane, ukryj przycisk "Load more"
-    if ((currentPage - 1) * 40 + hits.length >= totalHits) {
-      loadMoreButton.hidden = true;
-      if (currentPage > 1) {
-        Notiflix.Notify.info(
-          'Przykro nam, ale dotarłeś do końca wyników wyszukiwania.'
-        );
-      }
-    }
+    currentPage++;
   } catch (error) {
     console.error(error);
-    Notiflix.Notify.failure(
-      'Ups, coś poszło nie tak. Proszę spróbować później.'
-    );
+    Notiflix.Notify.failure('Nie udało się pobrać zdjęć. Spróbuj ponownie.');
   }
 }
 
 // Czyszczenie zawartości galerii
 function clearGallery() {
   gallery.innerHTML = '';
-  loadMoreButton.hidden = true;
+  totalHits = 0;
 }
 
-// Dodawanie obrazów do galerii i aktualizacja logiki przycisku "Load more"
-function appendImagesMarkup(images, totalHits) {
+// Dodawanie obrazów do galerii
+function appendImagesMarkup(images) {
   const markup = images
     .map(
       image => `
-          <div class="photo-card">
-            <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
-            <div class="info">
-              <p class="info-item">
-                <b>Lubię to</b>
-                <span>${image.likes}</span>
-              </p>
-              <p class="info-item">
-                <b>Odsłony</b>
-                <span>${image.views}</span>
-              </p>
-              <p class="info-item">
-                <b>Komentarze</b>
-                <span>${image.comments}</span>
-              </p>
-              <p class="info-item">
-                <b>Pobrania</b>
-                <span>${image.downloads}</span>
-              </p>
+            <div class="photo-card">
+                <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
+                <div class="info">
+                    <p class="info-item">
+                        <b>Lubię to</b>
+                        <span>${image.likes}</span>
+                    </p>
+                    <p class="info-item">
+                        <b>Odsłony</b>
+                        <span>${image.views}</span>
+                    </p>
+                    <p class="info-item">
+                        <b>Komentarze</b>
+                        <span>${image.comments}</span>
+                    </p>
+                    <p class="info-item">
+                        <b>Pobrania</b>
+                        <span>${image.downloads}</span>
+                    </p>
+                </div>
             </div>
-          </div>
         `
     )
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
+
+  // Logika dla przycisku "Load more"
+  if ((currentPage - 1) * 40 + images.length < totalHits) {
+    loadMoreButton.hidden = false;
+  } else {
+    loadMoreButton.hidden = true;
+    if (currentPage !== 1) {
+      Notiflix.Notify.info(
+        'Przykro nam, ale dotarłeś do końca wyników wyszukiwania.'
+      );
+    }
+  }
 }

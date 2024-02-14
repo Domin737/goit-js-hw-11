@@ -51,31 +51,31 @@ header {
   border: 1px solid #ddd;
   border-radius: 5px;
   overflow: hidden;
-  display: flex; /* Ustawienie flex dla lepszego zarządzania układem */
-  flex-direction: column; /* Układanie elementów w pionie */
+  display: flex;
+  flex-direction: column;
 }
 
 .photo-card img {
   width: 100%;
   height: auto;
-  object-fit: cover; /* Zapewnia, że obrazy wypełnią element img */
-  flex-grow: 1; /* Obraz zajmie całą dostępną przestrzeń */
+  object-fit: cover;
+  flex-grow: 1;
 }
 
 .info {
   padding: 10px;
   background-color: #f8f8f8;
   display: flex;
-  justify-content: space-around; /* Zapewnia równomierne rozmieszczenie elementów */
+  justify-content: space-around;
   font-size: 0.9em;
 }
 
 .info-item {
-  text-align: center; /* Wyśrodkowanie tekstu */
+  text-align: center;
 }
 
 .info-item b {
-  display: block; /* Wyświetlanie jako blok */
+  display: block;
 }
 
 /* Stylizacja przycisku "Load more" */
@@ -116,10 +116,6 @@ header {
   .search-form button {
     width: 100%;
     margin: 5px 0;
-  }
-
-  .search-form button {
-    width: auto;
   }
 
   .gallery {

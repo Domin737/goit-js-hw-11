@@ -24,7 +24,7 @@ let lightbox = null;
 searchForm.addEventListener('submit', handleSearch);
 loadMoreButton.addEventListener('click', fetchImages);
 clearSearchBtn.addEventListener('click', () => {
-  window.location.reload(); // Odświeża stronę
+  window.location.reload();
 });
 
 // Obsługa wysłania formularza wyszukiwania
@@ -115,6 +115,16 @@ function appendImagesMarkup(images) {
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
+
+  // Po wstawieniu obrazów, przewiń ekran
+  if (gallery.firstElementChild) {
+    const { height: cardHeight } =
+      gallery.firstElementChild.getBoundingClientRect();
+    window.scrollBy({
+      top: cardHeight * 0.25,
+      behavior: 'smooth',
+    });
+  }
 
   // Inicjalizacja SimpleLightbox dla nowo dodanych elementów
   if (!lightbox) {

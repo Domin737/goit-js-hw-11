@@ -1,9 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Wyszukiwarka obrazów</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Dodanie stylów dla Notiflix -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Notiflix/3.2.5/notiflix-3.2.5.min.css"
+    />
   </head>
-  <body></body>
+  <body>
+    <!-- Formularz wyszukiwania -->
+    <form class="search-form" id="search-form">
+      <input
+        type="text"
+        name="searchQuery"
+        autocomplete="off"
+        placeholder="Search images..."
+      />
+      <button type="submit">Search</button>
+    </form>
+
+    <!-- Kontener na galerię obrazów -->
+    <div class="gallery" id="gallery"></div>
+
+    <!-- Przycisk do ładowania więcej obrazów -->
+    <button
+      type="button"
+      class="load-more"
+      id="load-more"
+      style="display: none"
+    >
+      Load more
+    </button>
+
+    <script src="index.js"></script>
+    <!-- Skrypty dla Notiflix -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Notiflix/3.2.5/notiflix-aio-3.2.5.min.js"></script>
+  </body>
 </html>

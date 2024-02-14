@@ -87,30 +87,44 @@ function clearGallery() {
 }
 
 // Dodawanie obrazów do galerii
-function appendImagesMarkup(images) {
+function appendImagesMarkup(images, totalHits) {
   const markup = images
     .map(
       image => `
-        <div class="photo-card">
-            <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
-            <div class="info">
-                <p class="info-item">
-                    <b>Lubię to</b> ${image.likes}
-                </p>
-                <p class="info-item">
-                    <b>Odsłony</b> ${image.views}
-                </p>
-                <p class="info-item">
-                    <b>Komentarze</b> ${image.comments}
-                </p>
-                <p class="info-item">
-                    <b>Pobrania</b> ${image.downloads}
-                </p>
-            </div>
-        </div>
-    `
+          <div class="photo-card">
+              <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
+              <div class="info">
+                  <p class="info-item">
+                      <b>Lubię to</b>
+                      <span>${image.likes}</span>
+                  </p>
+                  <p class="info-item">
+                      <b>Odsłony</b>
+                      <span>${image.views}</span>
+                  </p>
+                  <p class="info-item">
+                      <b>Komentarze</b>
+                      <span>${image.comments}</span>
+                  </p>
+                  <p class="info-item">
+                      <b>Pobrania</b>
+                      <span>${image.downloads}</span>
+                  </p>
+              </div>
+          </div>
+      `
     )
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
+
+  // Logika dla przycisku "Load more"
+  if (gallery.children.length < totalHits) {
+    loadMoreButton.hidden = false;
+  } else {
+    loadMoreButton.hidden = true;
+    Notiflix.Notify.info(
+      'Przykro nam, ale dotarłeś do końca wyników wyszukiwania.'
+    );
+  }
 }

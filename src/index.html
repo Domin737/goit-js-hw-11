@@ -3,41 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wyszukiwarka obrazów</title>
+    <title>Image Search App</title>
     <link rel="stylesheet" href="css/style.css" />
-    <!-- Dodanie stylów dla Notiflix -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/Notiflix/3.2.5/notiflix-3.2.5.min.css"
-    />
   </head>
   <body>
-    <!-- Formularz wyszukiwania -->
-    <form class="search-form" id="search-form">
-      <input
-        type="text"
-        name="searchQuery"
-        autocomplete="off"
-        placeholder="Wyszukaj obrazy..."
-      />
-      <button type="submit">Szukaj</button>
-    </form>
-
-    <!-- Kontener na galerię obrazów -->
-    <div class="gallery" id="gallery"></div>
-
-    <!-- Przycisk do ładowania więcej obrazów -->
-    <button
-      type="button"
-      class="load-more"
-      id="load-more"
-      style="display: none"
-    >
-      Load more
-    </button>
-
-    <script src="js/index.js"></script>
-    <!-- Skrypty dla Notiflix -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Notiflix/3.2.5/notiflix-aio-3.2.5.min.js"></script>
+    <header>
+      <form class="search-form" id="search-form">
+        <input
+          type="text"
+          name="searchQuery"
+          autocomplete="off"
+          placeholder="Wpisz frazę do wyszukania obrazów..."
+        />
+        <button type="submit">Wyszukaj</button>
+      </form>
+    </header>
+    <main>
+      <div class="gallery" id="gallery"></div>
+      <button type="button" class="load-more" id="load-more" hidden>
+        Załaduj więcej
+      </button>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notiflix/3.2.5/notiflix-aio-3.2.5.min.js"></script>
+    <script src="js/index.js" type="module"></script>
   </body>
 </html>

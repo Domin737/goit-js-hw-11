@@ -58,11 +58,6 @@ async function fetchImages() {
     totalHits = data.totalHits;
     const hits = data.hits;
 
-    loadMoreButton.classList.toggle(
-      'show',
-      (currentPage - 1) * 40 + hits.length < totalHits
-    );
-
     if (hits.length === 0) {
       Notiflix.Notify.failure('Brak zdjęć odpowiadających zapytaniu.');
       return;
@@ -86,6 +81,10 @@ async function fetchImages() {
 function clearGallery() {
   gallery.innerHTML = '';
   totalHits = 0;
+  if (lightbox) {
+    lightbox.destroy();
+    lightbox = null;
+  }
 }
 
 // Dodawanie obrazów do galerii
@@ -93,16 +92,16 @@ function appendImagesMarkup(images) {
   const markup = images
     .map(
       image => `
-            <a href="${image.largeImageURL}" class="photo-card" data-lightbox="image-set">
-                <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
-                <div class="info">
-                    <p class="info-item"><b>Lubię to</b> <span>${image.likes}</span></p>
-                    <p class="info-item"><b>Odsłony</b> <span>${image.views}</span></p>
-                    <p class="info-item"><b>Komentarze</b> <span>${image.comments}</span></p>
-                    <p class="info-item"><b>Pobrania</b> <span>${image.downloads}</span></p>
-                </div>
-            </a>
-        `
+                <a href="${image.largeImageURL}" class="photo-card" data-lightbox="image-set">
+                    <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
+                    <div class="info">
+                        <p class="info-item"><b>Lubię to</b> <span>${image.likes}</span></p>
+                        <p class="info-item"><b>Odsłony</b> <span>${image.views}</span></p>
+                        <p class="info-item"><b>Komentarze</b> <span>${image.comments}</span></p>
+                        <p class="info-item"><b>Pobrania</b> <span>${image.downloads}</span></p>
+                    </div>
+                </a>
+            `
     )
     .join('');
 
@@ -116,17 +115,5 @@ function appendImagesMarkup(images) {
     });
   } else {
     lightbox.refresh();
-  }
-
-  // Logika dla przycisku "Load more"
-  if ((currentPage - 1) * 40 + images.length < totalHits) {
-    loadMoreButton.hidden = false;
-  } else {
-    loadMoreButton.hidden = true;
-    if (currentPage !== 1) {
-      Notiflix.Notify.info(
-        'Przykro nam, ale dotarłeś do końca wyników wyszukiwania.'
-      );
-    }
   }
 }

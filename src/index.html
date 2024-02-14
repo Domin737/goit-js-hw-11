@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Search App</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <header>
@@ -15,7 +19,14 @@
           autocomplete="off"
           placeholder="Wpisz frazę do wyszukania obrazów..."
         />
-        <button type="submit">Wyszukaj</button>
+        <!-- <button type="submit">Wyszukaj</button> -->
+
+        <button type="submit" aria-label="Search">
+          <i class="fa fa-search"></i>
+        </button>
+        <button type="button" id="clear-search" aria-label="Clear search">
+          <i class="fa fa-times-circle"></i>
+        </button>
       </form>
     </header>
 

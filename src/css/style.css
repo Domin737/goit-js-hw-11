@@ -32,14 +32,18 @@ header {
   border-radius: 5px;
 }
 
+/* Style dla przycisków formularza */
 .search-form button {
-  width: 20%;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
   border: none;
-  border-radius: 5px;
+  background: transparent;
   cursor: pointer;
+  padding: 0 10px;
+}
+
+/* Stylizacja ikon FontAwesome */
+.fa {
+  font-size: 20px;
+  color: #ffffff;
 }
 
 /* Stylizacja galerii i przycisku "Load more" */

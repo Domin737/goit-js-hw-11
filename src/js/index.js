@@ -12,6 +12,7 @@ const BASE_URL = 'https://pixabay.com/api/';
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('#gallery');
 const loadMoreButton = document.querySelector('#load-more');
+const clearSearchBtn = document.querySelector('#clear-search');
 
 // Stan aplikacji
 let currentPage = 1;
@@ -22,6 +23,22 @@ let lightbox = null;
 // Słuchacze zdarzeń
 searchForm.addEventListener('submit', handleSearch);
 loadMoreButton.addEventListener('click', fetchImages);
+clearSearchBtn.addEventListener('click', clearGallery);
+
+// Obsługa czyszczenia galerii
+function clearGallery() {
+  gallery.innerHTML = '';
+  searchForm.elements.searchQuery.value = '';
+  loadMoreButton.hidden = true;
+  searchQuery = '';
+  currentPage = 1;
+  totalHits = 0;
+
+  if (lightbox) {
+    lightbox.destroy();
+    lightbox = null;
+  }
+}
 
 // Obsługa wysłania formularza wyszukiwania
 async function handleSearch(event) {
